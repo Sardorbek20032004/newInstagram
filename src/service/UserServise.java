@@ -4,6 +4,7 @@ import model.Comment;
 import model.User;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class UserServise implements BaseService<User> {
@@ -59,5 +60,14 @@ public class UserServise implements BaseService<User> {
             }
         }
         return false;
+    }
+    public User userById(UUID id){
+        ArrayList<User> users = ioFileReadAndWrite.fileRead(PATH);
+        for (User user : users){
+            if (user.getId().equals(id)){
+                return user;
+            }
+        }
+        return null;
     }
 }

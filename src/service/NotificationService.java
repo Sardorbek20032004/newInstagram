@@ -40,7 +40,7 @@ public class NotificationService {
         ioFileReadAndWrite.fileWrite(notifications, PATH);
     }
 
-    public List<Notification> getNotifications(UUID id) {
+    public ArrayList<Notification> getNotifications(UUID id) {
         ArrayList<Notification> notifications = ioFileReadAndWrite.fileRead(PATH);
         ArrayList<Notification> notificationArrayList = new ArrayList<>();
         for (Notification notification : notifications) {

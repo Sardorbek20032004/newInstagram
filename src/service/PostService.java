@@ -2,7 +2,9 @@ package service;
 
 import model.Comment;
 import model.Post;
+import model.User;
 
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,7 +45,15 @@ public class PostService implements BaseService<Post>{
         }
         return posts;
     }
-
+    public  Post postById(UUID id){
+    ArrayList<Post> posts = ioFileReadAndWrite.fileRead(PATH);
+        for (Post post : posts){
+        if (post.getId().equals(id)){
+            return post;
+        }
+    }
+        return null;
+}
     @Override
     public ArrayList<Post> list() {
         return ioFileReadAndWrite.fileRead(PATH);
