@@ -1,31 +1,53 @@
 package service;
 
-import model.Comment;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import model.Notification;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class NotificationService implements BaseService<Notification>{
-    IOFileReadAndWrite<Comment> ioFileReadAndWrite = new IOFileReadAndWrite();
-    private static  final String PATH = "src/file/notification.json";
-    @Override
-    public Notification add(Notification notification) {
-        return null;
+public class NotificationService {
+    private static final String PATH = "src/file/notifications.json";
+    private IOFileReadAndWrite<Notification> ioFileReadAndWrite = new IOFileReadAndWrite<>();
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    public void addNotification(Notification notification) {
+        ArrayList<Notification> notifications = ioFileReadAndWrite.fileRead(PATH);
+        notifications.add(notification);
+        ioFileReadAndWrite.fileWrite(notifications, PATH);
     }
 
-    @Override
-    public boolean delete(Notification notification) {
-        return false;
+    public void markAsRead(UUID notificationId) {
+        ArrayList<Notification> notifications = ioFileReadAndWrite.fileRead(PATH);
+        for (Notification notification : notifications) {
+            if (notification.getFromUserId().equals(notificationId)) {
+                notification.setStatus(true);
+                break;
+            }
+        }
+        ioFileReadAndWrite.fileWrite(notifications, PATH);
     }
 
-    @Override
-    public ArrayList<Notification> list(UUID id) {
-        return null;
+    public void userViewNotifications(UUID userId) {
+        ArrayList<Notification> notifications = ioFileReadAndWrite.fileRead(PATH);
+        for (Notification notification : notifications) {
+            if (notification.getToUserId().equals(userId)) {
+                notification.setStatus(false);
+            }
+        }
+        ioFileReadAndWrite.fileWrite(notifications, PATH);
     }
 
-    @Override
-    public ArrayList<Notification> list() {
-        return null;
+    public List<Notification> getNotifications(UUID id) {
+        ArrayList<Notification> notifications = ioFileReadAndWrite.fileRead(PATH);
+        ArrayList<Notification> notificationArrayList = new ArrayList<>();
+        for (Notification notification : notifications) {
+            if (notification.getFromUserId().equals(id) && notification.isStatus()) {
+                notificationArrayList.add(notification);
+            }
+        }
+        return notificationArrayList;
     }
 }

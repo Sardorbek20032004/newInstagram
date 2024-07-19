@@ -1,40 +1,16 @@
 package model;
-
 import java.util.UUID;
-
 public class Notification {
-    private UUID id;
-    private UUID toUserId;
     private UUID fromUserId;
-    private UUID postId;
+    private UUID toUserId;
     private boolean status;
+    private UUID postId;
 
-    public Notification() {
-        this.id = UUID.randomUUID();
-    }
-
-    public Notification(UUID toUserId, UUID fromUserId, UUID postId, boolean status) {
-        this();
-        this.toUserId = toUserId;
+    public Notification(UUID fromUserId, UUID toUserId, boolean status, UUID postId) {
         this.fromUserId = fromUserId;
-        this.postId = postId;
-        this.status = status;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public UUID getToUserId() {
-        return toUserId;
-    }
-
-    public void setToUserId(UUID toUserId) {
         this.toUserId = toUserId;
+        this.status = status;
+        this.postId = postId;
     }
 
     public UUID getFromUserId() {
@@ -45,12 +21,12 @@ public class Notification {
         this.fromUserId = fromUserId;
     }
 
-    public UUID getPostId() {
-        return postId;
+    public UUID getToUserId() {
+        return toUserId;
     }
 
-    public void setPostId(UUID postId) {
-        this.postId = postId;
+    public void setToUserId(UUID toUserId) {
+        this.toUserId = toUserId;
     }
 
     public boolean isStatus() {
@@ -61,4 +37,11 @@ public class Notification {
         this.status = status;
     }
 
+    public UUID getPostId() {
+        return postId;
+    }
+
+    public void setPostId(UUID postId) {
+        this.postId = postId;
+    }
 }
