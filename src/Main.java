@@ -29,29 +29,56 @@ public class Main {
     }
 
     public static void register() {
+        int stepCode = 9;
+        while (stepCode != 0){
+            User user = new User();
+            System.out.println("Enter your name :");
+            user.setName(scannerStr.nextLine());
+            System.out.println("Enter your username :");
+            user.setUserName(scannerStr.nextLine());
+            System.out.println("Enter your email :");
+            user.setUserName(scannerStr.nextLine());
+            System.out.println("Enter your phoneNumber  :");
+            user.setPhoneNumber(scannerStr.nextLine());
+            System.out.println("Enter your bio ");
+            user.setBio(scannerStr.nextLine());
+            User add = userServise.add(user);
+            if (add == null) {
+                System.out.println("This user is already exist");
+            }
+            System.out.println("Registration is successfully done!");
+        }
 
     }
 
     public static void login() {
-        //login username orqali tekshiriladi
-        if (true) {
-            int stepCode = 0;
-            while (stepCode != 1) {
-                int n = 0; // Go to notification service and take the notification list
-                System.out.println("1. Add Post      2. See Post      3. Notification + " + n + "       4. My Account      0. Exit");
-                int res = scannerInt.nextInt();
-                switch (res) {
-                    case 0 -> stepCode = 0;
-                    case 1 -> addPost();
-                    case 2 -> seePost();
-                    case 3 ->
-                            notification(); // When you enter notification, Print all notification and its name send by who, When notification is seen notification status should be false
-                    //according to notificationService, when while go once after this process the number of notification should be lowered -1,
-                    case 4 -> myAccaunt();
+        int stepCode = 9;
+        while (stepCode != 0){
+            System.out.println("Enter username : ");
+            String username = scannerStr.nextLine();
+            User login = userServise.getUsernameByUser(username);
+
+            if(login == null) {
+                System.out.println(" Wrong username ");
+                //login username orqali tekshiriladi
+            }
+        else {
+                int stepCode = 0;
+                while (stepCode != 1) {
+                    int n = 0; // Go to notification service and take the notification list
+                    System.out.println("1. Add Post      2. See Post      3. Notification + " + n + "       4. My Account      0. Exit");
+                    int res = scannerInt.nextInt();
+                    switch (res) {
+                        case 0 -> stepCode = 0;
+                        case 1 -> addPost();
+                        case 2 -> seePost();
+                        case 3 ->
+                                notification(); // When you enter notification, Print all notification and its name send by who, When notification is seen notification status should be false
+                        //according to notificationService, when while go once after this process the number of notification should be lowered -1,
+                        case 4 -> myAccaunt();
+                    }
                 }
             }
-        }
-
 
     }
 

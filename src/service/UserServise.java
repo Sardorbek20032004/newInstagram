@@ -70,4 +70,13 @@ public class UserServise implements BaseService<User> {
         }
         return null;
     }
+    public User getUsernameByUser(String username) {
+        ArrayList<User> users = ioFileReadAndWrite.fileRead(PATH);
+        for (User user :users) {
+            if (user.getUserName().equals(username)){
+                return user;
+            }
+        }
+        return null;
+    }
 }
