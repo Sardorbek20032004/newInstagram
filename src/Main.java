@@ -1,9 +1,5 @@
-import model.Post;
-import model.User;
-import model.Notification;
-import service.NotificationService;
-import service.PostService;
-import service.UserServise;
+import model.*;
+import service.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,6 +11,8 @@ public class Main {
     static NotificationService notificationService = new NotificationService();
     static UserServise userServise = new UserServise();
     static PostService postService = new PostService();
+    static LikeService likeService = new LikeService();
+    static CommentService commentService = new CommentService();
 
     public static void main(String[] args) {
         System.out.println("1.Register, 2.Login, 0.Exit");
@@ -83,6 +81,17 @@ public class Main {
     }
 
     public static void addPost() {
+                System.out.println("Enter Post: ");
+                String post = scannerStr.nextLine();
+                Post post1 = new Post(loginUser.getId(),post);
+                postService.add(post1);
+                System.out.println("Your post is successfully added");
+                ArrayList<User> users = userServise.list();
+                for (User user: users) {
+                    Notification notification1 = new Notification(loginUser.getId(), user.getId(), true, post1.getId());
+                    notificationService.addNotification(notification1);
+                }
+            }
     }
 
     public static void seePost() {
@@ -126,14 +135,45 @@ public class Main {
 
 
     public static void myAccaunt(){
-        int steepcode = 10;
-        while (steepcode!=0){
-            System.out.println("1.My post, 0.Exit");
-            int res = scannerInt.nextInt();
-            switch (res){
-                case 0 -> steepcode = 0;
-                case 1 ->{}
+            int steepcode = 10;
+            while (steepcode!=0){
+                System.out.println("1.My post, 0.Exit");
+                int res = scannerInt.nextInt();
+                switch (res){
+                    case 0 -> steepcode = 0;
+                    case 1 ->{
+                        ArrayList<Post> posts = postService.list(loginUser.getId());
+                        int n = 1;
+                        for (Post post: posts){
+                            System.out.println(n + ") " + post);
+                        }
+                        System.out.println("Choose post: ");
+                        int index = scannerInt.nextInt();
+                        Post post = postService.getPostByIndex(index);
+                        int result = 10;
+                        while (result!=0) {
+                            System.out.println("1,Like, 2.Comment, 0.Exit ");
+                            int s = scannerInt.nextInt();
+                            switch (s){
+                                case 0 -> result = 0;
+                                case 1 -> {
+                                    ArrayList<Like> likes = likeService.list(post.getId());
+                                    int t = 1;
+                                    for (Like like: likes){
+                                        System.out.println(t + ") " + like + userServise.getUserById(like.getUserId()).getName());
+                                    }
+                                }
+                                case 2 -> {
+                                    ArrayList<Comment> comments = commentService.list(post.getId());
+                                    int q = 1;
+                                    for (Comment comment: comments){
+                                        System.out.println(q + ") " + comment.getComment());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-        }
     }
 }

@@ -54,8 +54,20 @@ public class PostService implements BaseService<Post>{
     }
         return null;
 }
+
+
+
     @Override
     public ArrayList<Post> list() {
         return ioFileReadAndWrite.fileRead(PATH);
+    }
+    public Post getPostByIndex(int index){
+        ArrayList<Post> posts = ioFileReadAndWrite.fileRead(PATH);
+        int n = 1;
+        for (Post post1 : posts) {
+            if (n == index) return post1;
+            n++;
+        }
+        return null;
     }
 }
